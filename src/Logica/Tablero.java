@@ -6,8 +6,8 @@ public class Tablero {
 
     private final String palabraEscogida;
     private String palabraInput;
-    private int turnosPartida;
-    private Scanner scanner = new Scanner(System.in);
+    private final int turnosPartida;
+    private final Scanner scanner = new Scanner(System.in);
     private boolean ganador = false;
 
     public Tablero(String palabraEscogida){
