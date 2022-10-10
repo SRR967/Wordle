@@ -1,7 +1,6 @@
 package Logica;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 public class Palabras {
@@ -11,9 +10,9 @@ public class Palabras {
     private final Scanner scanner;
 
 
-    public Palabras() throws FileNotFoundException {
+    public Palabras() throws IOException {
         nombreArchivo = "cuatroCaracteres.txt";
-        scanner = new Scanner(new File("ArchivosPalabras/cuatroCaracteres.txt"));
+        scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
 
         leerPalabrasArchivo();
     }
@@ -52,16 +51,35 @@ public class Palabras {
     }
 
     public void agregarPalabra(String palabra){
-        //System.out.println(buscarPalabraEnLista(palabra, 0, posiblesPalabras.size() - 1));
 
         if(buscarPalabraEnLista(palabra, 0 , posiblesPalabras.size()-1) == -1){
             posiblesPalabras.add(palabra);
             posiblesPalabras.sort(String.CASE_INSENSITIVE_ORDER);
-            //@TODO Agregar funcion para grabar la informacion en el txt.
+
+
+                try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("ArchivosPalabras/" + nombreArchivo))) {
+                    for (String posiblesPalabra : posiblesPalabras) {
+                        String palabraLista;
+                        palabraLista = posiblesPalabra;
+
+                        bufferedWriter.write(palabraLista);
+                        bufferedWriter.newLine();
+                        bufferedWriter.flush();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
         else{
             System.out.println("La palabra ya existe");
         }
         System.out.println(posiblesPalabras);
+    }
+
+    public String escogerPalabraAleatoria(){
+
+        return posiblesPalabras.get((int)(Math.random() * posiblesPalabras.size()));
+
     }
 }

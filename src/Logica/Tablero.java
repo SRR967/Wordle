@@ -1,19 +1,28 @@
 package Logica;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Tablero {
 
     private final String palabraEscogida;
     private String palabraInput;
+
     private final int turnosPartida;
-    private final Scanner scanner = new Scanner(System.in);
+
     private boolean ganador = false;
 
-    public Tablero(String palabraEscogida){
+    private final Scanner scanner = new Scanner(System.in);
+
+    private Palabras palabras = new Palabras();
+
+
+    public Tablero() throws IOException {
         turnosPartida = 4;
         this.palabraInput = "";
-        this.palabraEscogida = palabraEscogida;
+        this.palabraEscogida = palabras.escogerPalabraAleatoria();
+
+        controlJuego();
     }
 
     public void compararPalabra(){
@@ -30,7 +39,7 @@ public class Tablero {
                     resultado.append(palabraInput.charAt(i)).append("✓ ; ");
                 }
                 else{
-                    resultado.append(palabraInput.charAt(i)).append("X ; ");
+                    resultado.append(palabraInput.charAt(i)).append("✖ ; ");
                 }
             }
 
