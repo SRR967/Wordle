@@ -82,4 +82,20 @@ public class Palabras {
         return posiblesPalabras.get((int)(Math.random() * posiblesPalabras.size()));
 
     }
+
+    public ArrayList<String> verificarPalabra(String palabraDada, String palabraIngresada){
+
+        ArrayList<String> posicion = new ArrayList<String>();
+        ciclo:
+        for (int i=0; i<palabraDada.length(); i++){
+            for(int j=0; j<palabraIngresada.length(); j++){
+                if(palabraIngresada.charAt(j) == palabraDada.charAt(i) ){
+                    String pos = String.valueOf(palabraIngresada.charAt(j)).concat(" = "+ j);
+                    posicion.add(pos);
+                    continue ciclo;
+                }
+            }
+        }
+        return posicion;
+    }
 }
