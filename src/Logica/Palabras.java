@@ -7,15 +7,41 @@ public class Palabras {
 
     private final ArrayList<String> posiblesPalabras = new ArrayList<>();
     private String nombreArchivo;
-    private final Scanner scanner;
-
+    private Scanner scanner= new Scanner(System.in);
+    private int dificultad;
 
     public Palabras() throws IOException {
-        nombreArchivo = "cuatroCaracteres.txt";
-        scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
+        System.out.println("Escoja la dificultad: \n 1:Fácil \n 2: Intermedio \n 3:Dificil");
+        this.dificultad=scanner.nextInt();
 
-        leerPalabrasArchivo();
+        switch (dificultad) {
+            case 1:
+            nombreArchivo = "cuatroCaracteres.txt";
+            scanner = new Scanner(new File("Wordle/ArchivosPalabras/" + nombreArchivo));
+
+            leerPalabrasArchivo();
+            break;
+            case 2:
+                nombreArchivo = "cincoCaracteres.txt";
+                scanner = new Scanner(new File("Wordle/ArchivosPalabras/" + nombreArchivo));
+
+                leerPalabrasArchivo();
+                break;
+            case 3:
+                nombreArchivo = "seisCaracteres.txt";
+                scanner = new Scanner(new File("Wordle/ArchivosPalabras/" + nombreArchivo));
+
+                leerPalabrasArchivo();
+                break;
+            default:
+                System.out.println("Por favor digite un numero del 1 al 3");
+                break;
+        }
     }
+
+
+
+
 
     public void leerPalabrasArchivo(){
         while(scanner.hasNext()){

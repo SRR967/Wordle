@@ -1,8 +1,8 @@
-Alza
-Cara
-Mano
-Mina
-Mira
-Poco
-Sura
-Tuvo
+ALZA
+CARA
+MANO
+MINA
+MIRA
+POCO
+SURA
+TUVO

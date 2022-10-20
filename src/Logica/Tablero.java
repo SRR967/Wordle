@@ -1,6 +1,7 @@
 package Logica;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Tablero {
@@ -33,19 +34,37 @@ public class Tablero {
             ganador = true;
             System.out.println("Has ganado");
         }
-        else{
-            for(int i = 0; i < palabraEscogida.length(); i++){
-                if(Character.toUpperCase(palabraEscogida.charAt(i)) == Character.toUpperCase(palabraInput.charAt(i))){
-                    resultado.append(palabraInput.charAt(i)).append("✓ ; ");
+        else {
+            for (int j = 0; j < palabraInput.length(); j++) {
+
+                if (palabraEscogida.contains(String.valueOf(Character.toUpperCase(palabraInput.charAt(j))))) {
+                    resultado.append(palabraInput.toUpperCase().charAt(j)).append(" # ; ");
+                    //resultado.replace(palabraInput.charAt(j),palabraInput.charAt(j),"#");
+
+                } else {
+                    resultado.append(palabraInput.toUpperCase().charAt(j)).append("✖ ; ");
+
                 }
-                else{
-                    resultado.append(palabraInput.charAt(i)).append("✖ ; ");
+            }
+            for (int i = 0; i < palabraEscogida.length(); i++) {
+
+                //resultado.replace(0,1,"s");
+                if (Character.toUpperCase(palabraEscogida.charAt(i)) == Character.toUpperCase(palabraInput.charAt(i))) {
+                    for (int k=0; k<resultado.length(); k++){
+                        if(resultado.charAt(k)== Character.toUpperCase(palabraInput.charAt(i))){
+                            resultado.replace(k+1, k+3, "✓");
+                        }
+                    }
+                    //resultado.append(palabraInput.charAt(i)).append("✓ ; ");
+
                 }
             }
 
+        }
+
             System.out.println(resultado);
         }
-    }
+
 
     public void pedirPalabra(){
         while(palabraInput.length() != palabraEscogida.length()){
@@ -53,6 +72,8 @@ public class Tablero {
             palabraInput = scanner.next();
         }
     }
+
+
 
     public void controlJuego(){
         for(int i = 0; i < turnosPartida; i++){
