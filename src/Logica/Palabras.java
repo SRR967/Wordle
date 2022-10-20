@@ -11,25 +11,28 @@ public class Palabras {
     private int dificultad;
 
     public Palabras() throws IOException {
-        System.out.println("Escoja la dificultad: \n 1:Fácil \n 2: Intermedio \n 3:Dificil");
+
+
+        System.out.println("Escoja la dificultad: \n 1:Fácil \n 2:Intermedio \n 3:Dificil");
         this.dificultad=scanner.nextInt();
+
 
         switch (dificultad) {
             case 1:
             nombreArchivo = "cuatroCaracteres.txt";
-            scanner = new Scanner(new File("Wordle/ArchivosPalabras/" + nombreArchivo));
+            scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
 
             leerPalabrasArchivo();
             break;
             case 2:
                 nombreArchivo = "cincoCaracteres.txt";
-                scanner = new Scanner(new File("Wordle/ArchivosPalabras/" + nombreArchivo));
+                scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
 
                 leerPalabrasArchivo();
                 break;
             case 3:
                 nombreArchivo = "seisCaracteres.txt";
-                scanner = new Scanner(new File("Wordle/ArchivosPalabras/" + nombreArchivo));
+                scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
 
                 leerPalabrasArchivo();
                 break;
@@ -37,11 +40,9 @@ public class Palabras {
                 System.out.println("Por favor digite un numero del 1 al 3");
                 break;
         }
+
+
     }
-
-
-
-
 
     public void leerPalabrasArchivo(){
         while(scanner.hasNext()){
@@ -109,19 +110,4 @@ public class Palabras {
 
     }
 
-    public ArrayList<String> verificarPalabra(String palabraDada, String palabraIngresada){
-
-        ArrayList<String> posicion = new ArrayList<String>();
-        ciclo:
-        for (int i=0; i<palabraDada.length(); i++){
-            for(int j=0; j<palabraIngresada.length(); j++){
-                if(palabraIngresada.charAt(j) == palabraDada.charAt(i) ){
-                    String pos = String.valueOf(palabraIngresada.charAt(j)).concat(" = "+ j);
-                    posicion.add(pos);
-                    continue ciclo;
-                }
-            }
-        }
-        return posicion;
-    }
 }
