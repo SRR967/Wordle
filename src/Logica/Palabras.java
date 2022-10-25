@@ -7,23 +7,28 @@ public class Palabras {
 
     private final ArrayList<String> posiblesPalabras = new ArrayList<>();
     private String nombreArchivo;
-    private Scanner scanner= new Scanner(System.in);
+    private Scanner scannerIn = new Scanner(System.in);
+    Scanner scanner;
     private int dificultad;
 
     public Palabras() throws IOException {
 
+    }
+
+
+    public void elegirDificultad() throws FileNotFoundException {
 
         System.out.println("Escoja la dificultad: \n 1:Fácil \n 2:Intermedio \n 3:Dificil");
-        this.dificultad=scanner.nextInt();
+            this.dificultad = scannerIn.nextInt();
 
 
         switch (dificultad) {
             case 1:
-            nombreArchivo = "cuatroCaracteres.txt";
-            scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
+                nombreArchivo = "cuatroCaracteres.txt";
+                scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
 
-            leerPalabrasArchivo();
-            break;
+                leerPalabrasArchivo();
+                break;
             case 2:
                 nombreArchivo = "cincoCaracteres.txt";
                 scanner = new Scanner(new File("ArchivosPalabras/" + nombreArchivo));
@@ -40,20 +45,18 @@ public class Palabras {
                 System.out.println("Por favor digite un numero del 1 al 3");
                 break;
         }
-
-
     }
 
     public void leerPalabrasArchivo(){
         while(scanner.hasNext()){
             posiblesPalabras.add(scanner.next());
         }
-        scanner.close();
+        //scanner.close();
 
-        System.out.println(posiblesPalabras);
+        //System.out.println(posiblesPalabras);
 
         posiblesPalabras.sort(String.CASE_INSENSITIVE_ORDER);
-        System.out.println(posiblesPalabras);
+        //System.out.println(posiblesPalabras);
 
     }
 
@@ -77,14 +80,15 @@ public class Palabras {
 
     }
 
-    public void agregarPalabra(String palabra){
+    public void agregarPalabra(String palabra) {
 
-        if(buscarPalabraEnLista(palabra, 0 , posiblesPalabras.size()-1) == -1){
-            posiblesPalabras.add(palabra);
-            posiblesPalabras.sort(String.CASE_INSENSITIVE_ORDER);
+        if (palabra.length() == posiblesPalabras.get(0).length()) {
+            if (buscarPalabraEnLista(palabra, 0, posiblesPalabras.size() - 1) == -1) {
+                posiblesPalabras.add(palabra.toUpperCase(Locale.ROOT));
+                posiblesPalabras.sort(String.CASE_INSENSITIVE_ORDER);
 
 
-                try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("ArchivosPalabras/" + nombreArchivo))) {
+                try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("ArchivosPalabras/" + nombreArchivo))) {
                     for (String posiblesPalabra : posiblesPalabras) {
                         String palabraLista;
                         palabraLista = posiblesPalabra;
@@ -97,11 +101,14 @@ public class Palabras {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else {
+                System.out.println("La palabra ya existe");
+            }
+            System.out.println(posiblesPalabras);
         }
         else{
-            System.out.println("La palabra ya existe");
+            System.out.println("La palabra no es valida");
         }
-        System.out.println(posiblesPalabras);
     }
 
     public String escogerPalabraAleatoria(){

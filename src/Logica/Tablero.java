@@ -1,15 +1,16 @@
 package Logica;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Tablero {
 
-    private final String palabraEscogida;
+    private String palabraEscogida;
     private String palabraInput;
 
-    private final int turnosPartida;
+    private final int turnosPartida = 4;
 
     private boolean ganador = false;
 
@@ -19,11 +20,44 @@ public class Tablero {
 
 
     public Tablero() throws IOException {
-        turnosPartida = 4;
-        this.palabraInput = "";
-        this.palabraEscogida = palabras.escogerPalabraAleatoria();
+        palabras.elegirDificultad();
+        menuPrincipal();
 
-        controlJuego();
+
+    }
+
+    public void menuPrincipal() throws FileNotFoundException {
+
+        System.out.println("Por favor, escoja una opcion: \n" +
+                "1. Agregar una nueva palabra a la base de datos \n" +
+                "2. Cambiar Dificultad \n" +
+                "3. Iniciar Juego");
+
+        int opcionEscogida = scanner.nextInt();
+
+        switch (opcionEscogida){
+            case 1:
+                System.out.println("Por favor ingrese la palabra que desea agregar:");
+                String palabra = scanner.next();
+                palabras.agregarPalabra(palabra);
+                menuPrincipal();
+                break;
+
+            case 2:
+                palabras.elegirDificultad();
+                menuPrincipal();
+                break;
+
+            case 3:
+
+                this.palabraInput = "";
+                this.palabraEscogida = palabras.escogerPalabraAleatoria();
+                controlJuego();
+
+            default:
+                menuPrincipal();
+
+        }
     }
 
     public void compararPalabra(){
