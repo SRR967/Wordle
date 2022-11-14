@@ -7,6 +7,7 @@ public class Palabras {
 
     private final ArrayList<String> posiblesPalabras = new ArrayList<>();
     private String nombreArchivo;
+
     private Scanner scannerIn = new Scanner(System.in);
     Scanner scanner;
     private int dificultad;
@@ -117,4 +118,7 @@ public class Palabras {
 
     }
 
+    public int getDificultad() {
+        return dificultad;
+    }
 }
