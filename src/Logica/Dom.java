@@ -27,6 +27,8 @@ public class Dom {
 
     public void imprimirXML(Node nodo){
 
+        //System.out.println(nodo.getNodeName());
+
         NodeList hijos= nodo.getChildNodes();
 
         for(int i=0; i<hijos.getLength(); i++) {
@@ -35,21 +37,16 @@ public class Dom {
 
             Node hijo = hijos.item(i);
 
-            String nombre= null;
-            String puntuacion = null;
             //verificar tipo de nodos
             //elementos, texto o atributos
             if (hijo.getNodeType() == Node.ELEMENT_NODE) {
                 imprimirXML(hijo);
             }
-            if (hijo.getNodeType() == Node.TEXT_NODE) {
-                if(hijo.getTextContent() != null){
-                    System.out.println(hijo.getTextContent());
-                }
-
-
+            if (hijo.getNodeType() == Node.TEXT_NODE && !hijo.getTextContent().trim().isEmpty()) {
+                System.out.println(hijo.getTextContent());
             }
         }
+
     }
 
     public Document getDocumento() {
