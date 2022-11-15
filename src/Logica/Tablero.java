@@ -1,7 +1,14 @@
 package Logica;
 
+import org.w3c.dom.*;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
@@ -20,10 +27,11 @@ public class Tablero {
 
     private Palabras palabras = new Palabras();
     private Usuario usuario;
-    private Dom dom;
+    private Dom dom = new Dom();
 
 
-    public Tablero() throws IOException, ParserConfigurationException, TransformerException {
+    public Tablero() throws IOException {
+        dom.imprimirXML(dom.getDocumento());
         palabras.elegirDificultad();
         crearUsuario();
         menuPrincipal();
@@ -44,7 +52,7 @@ public class Tablero {
 
     }
 
-    public void menuPrincipal() throws IOException, TransformerException, ParserConfigurationException {
+    public void menuPrincipal() throws FileNotFoundException {
 
         System.out.println("Por favor, escoja una opcion: \n" +
                 "1. Agregar una nueva palabra a la base de datos \n" +
@@ -130,7 +138,44 @@ public class Tablero {
 
 
 
-    public void controlJuego() throws IOException, TransformerException, ParserConfigurationException {
+    public void controlJuego() {
+
+        try {
+            File xml = new File("Usuarios.xml");
+            DocumentBuilderFactory fabrica = DocumentBuilderFactory.newInstance();
+            DocumentBuilder constructor = fabrica.newDocumentBuilder();
+            DOMImplementation implementation = constructor.getDOMImplementation();
+            Document documento = implementation.createDocument(null, "Usuarios", null);
+            documento.setXmlVersion("1.0");
+
+            for (int i=0; i< usuario.getListaUsuarios().size(); i++){
+                Element user = documento.createElement("User");
+                Element nombreusuario = documento.createElement("usuario");
+                Element puntuacion = documento.createElement("puntuacion");
+
+                Text txtUsuario = documento.createTextNode(usuario.getListaUsuarios().get(i).getNombreUsuario());
+                Text txtPuntuacion = documento.createTextNode(String.valueOf(usuario.getListaUsuarios().get(i).getPuntuacion()));
+
+                nombreusuario.appendChild(txtUsuario);
+                puntuacion.appendChild(txtPuntuacion);
+
+                user.appendChild(nombreusuario);
+                user.appendChild(puntuacion);
+
+                documento.getDocumentElement().appendChild(user);
+            }
+
+            Source source = new DOMSource(documento);
+            Result resultado = new StreamResult(xml);
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source,resultado);
+
+
+        }catch (ParserConfigurationException | TransformerException | DOMException ex){
+            System.out.println(ex.getMessage());
+        }
+
+
 
         ganador = false;
 
@@ -169,12 +214,8 @@ public class Tablero {
                 System.out.println("Has fallado");
             }
         }
-        this.dom = new Dom();
-        System.out.println("Si se ejecuta");
-        dom.generarDocumento();
-        System.out.println("Si se ejecuta2");
-        dom.generarXML();
-        System.out.println("Si se ejecuta3");
+        usuario.actualizarPuntuacion(usuario.getNombreUsuario());
+
     }
 
     public Usuario getUsuario() {

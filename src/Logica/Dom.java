@@ -1,53 +1,58 @@
 package Logica;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 public class Dom {
     private Document documento;
-    private Tablero tablero= new Tablero();
+    private Usuario usuario;
 
-    public Dom () throws ParserConfigurationException, IOException, TransformerException {
-        DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = factoria.newDocumentBuilder();
-        documento = documentBuilder.newDocument();
+    public Dom () {
+        try {
+
+            DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = null;
+            documentBuilder = factoria.newDocumentBuilder();
+
+            documento = documentBuilder.parse(new File("Usuarios.xml"));
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public void generarDocumento(){
-        Element usuario = documento.createElement("Usuario");
-        documento.appendChild(usuario);
-        usuario.setAttribute("usuario",tablero.getUsuario().getNombreUsuario());
+    public void imprimirXML(Node nodo){
 
-        Element puntaje = documento.createElement("Puntaje");
-        usuario.appendChild(puntaje);
+        NodeList hijos= nodo.getChildNodes();
 
+        for(int i=0; i<hijos.getLength(); i++) {
+
+            //crear un nodo hijo de la lista
+
+            Node hijo = hijos.item(i);
+
+            String nombre= null;
+            String puntuacion = null;
+            //verificar tipo de nodos
+            //elementos, texto o atributos
+            if (hijo.getNodeType() == Node.ELEMENT_NODE) {
+                imprimirXML(hijo);
+            }
+            if (hijo.getNodeType() == Node.TEXT_NODE) {
+                if(hijo.getTextContent() != null){
+                    System.out.println(hijo.getTextContent());
+                }
+
+
+            }
+        }
     }
 
-    public void generarXML() throws TransformerException, IOException {
-
-        Source raiz = new DOMSource(documento);
-        TransformerFactory factoria = TransformerFactory.newInstance();
-        Transformer transfromador = factoria.newTransformer();
-        File file= new File("Usuarios.xml");
-        FileWriter fw = new FileWriter(file);
-        PrintWriter pw = new PrintWriter(fw);
-        Result resultado = new StreamResult(pw);
-
-        transfromador.transform(raiz,resultado);
-
-
-
-
+    public Document getDocumento() {
+        return documento;
     }
 }
