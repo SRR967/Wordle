@@ -1,6 +1,7 @@
 package Logica;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Usuario {
     private String nombreUsuario;
@@ -14,16 +15,24 @@ public class Usuario {
 
     public Usuario(String nombreUsuario){
         this.nombreUsuario= nombreUsuario;
-        comprobarUsuario(nombreUsuario);
     }
 
     public void comprobarUsuario(String nombreUsuario){
         if (listaUsuarios.size() == 0){
             listaUsuarios.add(new Usuario(nombreUsuario,0));
         }
+        else{
         for(int i = 0; i < listaUsuarios.size(); i++){
-            if(nombreUsuario != listaUsuarios.get(i).getNombreUsuario()){
+            if(!Objects.equals(nombreUsuario, listaUsuarios.get(i).getNombreUsuario())){
+                System.out.println("AYUDA");
                 listaUsuarios.add(new Usuario(nombreUsuario,0));
+            }
+            else{
+                System.out.println("Usuario Encontrado");
+                System.out.println(listaUsuarios.get(i).getPuntuacion());
+                this.nombreUsuario = listaUsuarios.get(i).getNombreUsuario();
+                this.puntuacion = listaUsuarios.get(i).getPuntuacion();
+                }
             }
         }
     }
@@ -32,6 +41,7 @@ public class Usuario {
         for (int i=0; i< listaUsuarios.size(); i++){
             if(nombreUsuario == listaUsuarios.get(i).getNombreUsuario()){
                 listaUsuarios.get(i).setPuntuacion(this.puntuacion);
+                System.out.println(listaUsuarios.get(i).getPuntuacion());
             }
         }
     }

@@ -1,3 +1,4 @@
+import Logica.Dom;
 import Logica.Palabras;
 import Logica.Tablero;
 import org.w3c.dom.Document;

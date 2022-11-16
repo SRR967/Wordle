@@ -80,8 +80,16 @@ public class Tablero {
                 this.palabraInput = "";
                 this.palabraEscogida = palabras.escogerPalabraAleatoria();
                 controlJuego();
+                menuPrincipal();
+                break;
 
-
+            case 4:
+                System.out.println("Digite! el nuevo nombre de usuario: ");
+                String nombre = scanner.next();
+                usuario.comprobarUsuario(nombre);
+                System.out.println(usuario.getNombreUsuario() + usuario.getPuntuacion());
+                menuPrincipal();
+                break;
 
             default:
                 menuPrincipal();
@@ -113,10 +121,20 @@ public class Tablero {
 
                 //resultado.replace(0,1,"s");
                 if (Character.toUpperCase(palabraEscogida.charAt(i)) == Character.toUpperCase(palabraInput.charAt(i))) {
+
+                    int posAux = 0;
+
                     for (int k=0; k<resultado.length(); k++){
-                        if(resultado.charAt(k)== Character.toUpperCase(palabraInput.charAt(i))){
-                            resultado.replace(k+1, k+3, "✓");
+                        if(Character.isLetter(resultado.charAt(k))){
+                            if(Character.toUpperCase(palabraEscogida.charAt(posAux)) == Character.toUpperCase(palabraInput.charAt(posAux))) {
+                                System.out.println(Character.toUpperCase(resultado.charAt(k)) + " Es igual a " + Character.toUpperCase(palabraInput.charAt(posAux)));
+                                resultado.replace(k + 1, k + 3, "✓");
+                            }
+                            posAux++;
                         }
+                        //if(resultado.charAt(k)== Character.toUpperCase(palabraInput.charAt(i))){//por si se rompe, se cambia por k
+                            //resultado.replace(k+1, k+3, "✓");//no reemplace todas las vainas
+                        //}
                     }
                     //resultado.append(palabraInput.charAt(i)).append("✓ ; ");
 
